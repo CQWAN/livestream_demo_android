@@ -14,9 +14,9 @@ import cn.ucai.live.ui.activity.MainActivity;
 /**
  * Created by wei on 2016/5/27.
  */
-public class DemoApplication extends Application{
+public class LiveApplication extends Application{
 
-  private static DemoApplication instance;
+  private static LiveApplication instance;
 
 
   @Override public void onCreate() {
@@ -31,7 +31,7 @@ public class DemoApplication extends Application{
     UStreamingContext.init(getApplicationContext(), "publish3-key");
   }
 
-  public static DemoApplication getInstance(){
+  public static LiveApplication getInstance(){
     return instance;
   }
 
