@@ -2,13 +2,14 @@ package cn.ucai.live.data.model;
 
 import android.content.Context;
 
+import java.io.File;
+
 import cn.ucai.live.I;
 import cn.ucai.live.utils.OkHttpUtils;
 
-import java.io.File;
 
 /**
- * Created by LPP on 2017/3/29.
+ * Created by clawpo on 2017/3/29.
  */
 
 public class UserModel implements IUserModel {

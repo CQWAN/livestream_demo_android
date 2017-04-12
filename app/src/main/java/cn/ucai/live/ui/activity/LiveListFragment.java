@@ -14,14 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import cn.ucai.live.R;
-import com.hyphenate.exceptions.HyphenateException;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.live.ThreadPoolManager;
@@ -29,6 +21,12 @@ import cn.ucai.live.data.model.LiveRoom;
 import cn.ucai.live.data.restapi.ApiManager;
 import cn.ucai.live.data.restapi.model.ResponseModule;
 import cn.ucai.live.ui.GridMarginDecoration;
+
+import com.bumptech.glide.Glide;
+import cn.ucai.live.R;
+import com.hyphenate.exceptions.HyphenateException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.

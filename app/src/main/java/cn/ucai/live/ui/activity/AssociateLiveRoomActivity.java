@@ -11,28 +11,30 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import cn.ucai.live.data.restapi.ApiManager;
-import cn.ucai.live.data.restapi.LiveException;
 
 import com.bumptech.glide.Glide;
-import cn.ucai.live.R;
-import cn.ucai.live.ThreadPoolManager;
-import cn.ucai.live.data.model.LiveRoom;
-
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.cloud.EMCloudOperationCallback;
 import com.hyphenate.cloud.HttpFileManager;
 import com.hyphenate.exceptions.HyphenateException;
 import com.weigan.loopview.LoopView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.ucai.live.R;
+import cn.ucai.live.ThreadPoolManager;
+import cn.ucai.live.data.model.LiveRoom;
+import cn.ucai.live.data.restapi.ApiManager;
+import cn.ucai.live.data.restapi.LiveException;
 
 public class AssociateLiveRoomActivity extends BaseActivity {
 

@@ -15,18 +15,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.live.LiveConstants;
-import cn.ucai.live.data.restapi.LiveException;
-import cn.ucai.live.ui.widget.RoomMessagesView;
-
-import com.bumptech.glide.Glide;
-import cn.ucai.live.R;
 import cn.ucai.live.ThreadPoolManager;
 import cn.ucai.live.data.TestAvatarRepository;
 import cn.ucai.live.data.model.LiveRoom;
 import cn.ucai.live.data.restapi.ApiManager;
+import cn.ucai.live.data.restapi.LiveException;
 import cn.ucai.live.data.restapi.model.StatisticsType;
 import cn.ucai.live.ui.widget.PeriscopeLayout;
+import cn.ucai.live.ui.widget.RoomMessagesView;
 import cn.ucai.live.utils.Utils;
+
+import com.bumptech.glide.Glide;
+import cn.ucai.live.R;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMChatRoomChangeListener;
 import com.hyphenate.EMMessageListener;
@@ -51,7 +51,8 @@ public abstract class LiveBaseActivity extends BaseActivity {
     //@BindView(R.id.left_gift_view2) LiveLeftGiftView leftGiftView2;
     @BindView(R.id.message_view)
     RoomMessagesView messageView;
-    @BindView(R.id.periscope_layout) PeriscopeLayout periscopeLayout;
+    @BindView(R.id.periscope_layout)
+    PeriscopeLayout periscopeLayout;
     @BindView(R.id.bottom_bar) View bottomBar;
 
     //@BindView(R.id.barrage_layout) BarrageLayout barrageLayout;
@@ -230,7 +231,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
                 }
                 // 如果是当前会话的消息，刷新聊天页面
                 if (username.equals(chatroomId)) {
-                    //if (message.getBooleanAttribute(LiveConstants.EXTRA_IS_BARRAGE_MSG, false)) {
+                    //if (message.getBooleanAttribute(DemoConstants.EXTRA_IS_BARRAGE_MSG, false)) {
                     //    barrageLayout.addBarrage(
                     //            ((EMTextMessageBody) message.getBody()).getMessage(),
                     //            message.getFrom());
@@ -282,7 +283,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
                     @Override public void onMessageSend(String content) {
                         EMMessage message = EMMessage.createTxtSendMessage(content, chatroomId);
                         //if (messageView.isBarrageShow) {
-                        //    message.setAttribute(LiveConstants.EXTRA_IS_BARRAGE_MSG, true);
+                        //    message.setAttribute(DemoConstants.EXTRA_IS_BARRAGE_MSG, true);
                         //    barrageLayout.addBarrage(content,
                         //            EMClient.getInstance().getCurrentUser());
                         //}
@@ -488,7 +489,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
     //@OnClick(R.id.present_image) void onPresentImageClick() {
     //  EMMessage message = EMMessage.createSendMessage(EMMessage.Type.CMD);
     //  message.setTo(chatroomId);
-    //  EMCmdMessageBody cmdMessageBody = new EMCmdMessageBody(LiveConstants.CMD_GIFT);
+    //  EMCmdMessageBody cmdMessageBody = new EMCmdMessageBody(DemoConstants.CMD_GIFT);
     //  message.addBody(cmdMessageBody);
     //  message.setChatType(EMMessage.ChatType.ChatRoom);
     //  EMClient.getInstance().chatManager().sendMessage(message);

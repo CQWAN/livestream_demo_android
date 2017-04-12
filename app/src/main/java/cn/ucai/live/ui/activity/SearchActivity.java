@@ -11,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.live.data.restapi.ApiManager;
+
 import cn.ucai.live.R;
 import cn.ucai.live.ThreadPoolManager;
 import cn.ucai.live.data.model.LiveRoom;
-import cn.ucai.live.data.restapi.ApiManager;
+
 import com.hyphenate.exceptions.HyphenateException;
 import java.util.ArrayList;
 import java.util.List;

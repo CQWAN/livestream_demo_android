@@ -15,12 +15,14 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.live.data.restapi.ApiManager;
 import cn.ucai.live.data.restapi.LiveException;
+import cn.ucai.live.ucloud.LiveCameraView;
 
 import cn.ucai.live.R;
-import cn.ucai.live.data.restapi.ApiManager;
+
 import cn.ucai.live.ucloud.AVOption;
-import cn.ucai.live.ucloud.LiveCameraView;
+
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -32,7 +34,8 @@ import com.ucloud.ulive.UVideoProfile;
 
 public class LiveAnchorActivity extends LiveBaseActivity {
     private static final String TAG = LiveAnchorActivity.class.getSimpleName();
-    @BindView(R.id.container) LiveCameraView cameraView;
+    @BindView(R.id.container)
+    LiveCameraView cameraView;
     @BindView(R.id.countdown_txtv) TextView countdownView;
     @BindView(R.id.finish_frame) ViewStub liveEndLayout;
     @BindView(R.id.cover_image) ImageView coverImage;

@@ -3,14 +3,11 @@ package cn.ucai.live.utils;
 import android.app.Activity;
 import android.content.Intent;
 
-import cn.ucai.live.I;
 import cn.ucai.live.R;
 import cn.ucai.live.ui.activity.LoginActivity;
-import cn.ucai.live.ui.activity.MainActivity;
-import cn.ucai.live.ui.activity.RegisterActivity;
 
 /**
- * Created by LPP on 2017/3/16.
+ * Created by clawpo on 2017/3/16.
  */
 
 public class MFGT {
@@ -29,15 +26,6 @@ public class MFGT {
         activity.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 
-    public static void gotoMain(Activity activity) {
-        startActivity(activity, MainActivity.class);
-    }
-
-    public static void gotoMain(Activity activity,boolean isChat) {
-        startActivity(activity, new Intent(activity,MainActivity.class)
-        .putExtra(I.IS_FROM_CHAT,isChat));
-    }
-
     public static void startActivityForResult(Activity activity,Intent intent,int requestCode){
         activity.startActivityForResult(intent,requestCode);
         activity.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
@@ -45,9 +33,6 @@ public class MFGT {
 
     public static void gotoLogin(Activity activity) {
         startActivity(activity, new Intent(activity,LoginActivity.class)
-        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
-    }
-    public static void gotoRegister(Activity activity) {
-        startActivity(activity, RegisterActivity.class);
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

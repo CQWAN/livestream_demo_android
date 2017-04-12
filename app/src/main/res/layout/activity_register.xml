@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="cn.ucai.live.ui.activity.LoginActivity"
+    tools:context=".ui.activity.LoginActivity"
     >
 
     <android.support.v7.widget.Toolbar
@@ -65,6 +65,7 @@
                         android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -102,10 +103,10 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/confirm_password"
+                        android:id="@+id/com_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/prompt_confirm_password"
+                        android:hint="@string/prompt_com_password"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
@@ -114,6 +115,8 @@
                         android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
+
+
                 <Button
                     android:id="@+id/register"
                     android:layout_width="match_parent"
@@ -125,6 +128,7 @@
                     android:textColor="@color/common_white"
                     android:textSize="18sp"
                     />
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

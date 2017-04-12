@@ -12,7 +12,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ucai.superwechat.I;
+import cn.ucai.live.I;
+
 
 /**
  * Created by clawpo on 2016/9/21.

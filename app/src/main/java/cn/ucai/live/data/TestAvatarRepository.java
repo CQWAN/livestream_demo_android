@@ -2,11 +2,11 @@ package cn.ucai.live.data;
 
 import android.content.Context;
 
+import cn.ucai.live.LiveApplication;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import cn.ucai.live.LiveApplication;
 
 /**
  * Created by wei on 2016/7/4.

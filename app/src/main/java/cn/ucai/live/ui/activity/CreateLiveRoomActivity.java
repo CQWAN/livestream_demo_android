@@ -14,11 +14,12 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.ucai.live.ThreadPoolManager;
-import cn.ucai.live.data.model.LiveRoom;
 import cn.ucai.live.data.restapi.ApiManager;
 
 import cn.ucai.live.R;
+import cn.ucai.live.ThreadPoolManager;
+import cn.ucai.live.data.model.LiveRoom;
+
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.cloud.EMCloudOperationCallback;
 import com.hyphenate.cloud.HttpFileManager;
