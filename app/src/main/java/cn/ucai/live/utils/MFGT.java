@@ -1,20 +1,16 @@
 package cn.ucai.live.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-
-import com.hyphenate.easeui.domain.User;
 
 import cn.ucai.live.I;
 import cn.ucai.live.R;
-import cn.ucai.live.ui.activity.ChatActivity;
 import cn.ucai.live.ui.activity.LoginActivity;
 import cn.ucai.live.ui.activity.MainActivity;
 import cn.ucai.live.ui.activity.RegisterActivity;
 
 /**
- * Created by clawpo on 2017/3/16.
+ * Created by LPP on 2017/3/16.
  */
 
 public class MFGT {
@@ -47,62 +43,11 @@ public class MFGT {
         activity.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 
-//    public static void gotoGuide(Activity activity){
-//        startActivity(activity,GuideActivity.class);
-//    }
-
     public static void gotoLogin(Activity activity) {
         startActivity(activity, new Intent(activity,LoginActivity.class)
         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
     }
-
-
     public static void gotoRegister(Activity activity) {
         startActivity(activity, RegisterActivity.class);
-    }
-
-//    public static void gotoSettings(Activity activity) {
-//        startActivity(activity,SettingsActivity.class);
-//    }
-
-    public static void gotoUserInfo(Activity activity) {
-        startActivity(activity,UserProfileActivity.class);
-    }
-
-    public static void gotoAddContact(Activity activity) {
-        startActivity(activity,AddContactActivity.class);
-    }
-
-    public static void gotoFriend(Activity activity, User user) {
-        startActivity(activity,new Intent(activity,FriendProfileActivity.class)
-        .putExtra(I.User.TABLE_NAME,user));
-    }
-
-    public static void gotoFriend(Context activity, InviteMessage msg) {
-        startActivity((Activity) activity,new Intent(activity,FriendProfileActivity.class)
-                .putExtra(I.User.NICK,msg));
-    }
-
-    public static void gotoFriend(Context activity, String username) {
-        startActivity((Activity) activity,new Intent(activity,FriendProfileActivity.class)
-                .putExtra(I.User.USER_NAME,username));
-    }
-
-    public static void gotoSendAddFirend(Activity activity, String userName) {
-        startActivity(activity,new Intent(activity,SendAddFirendActivity.class)
-        .putExtra(I.User.USER_NAME,userName));
-    }
-
-    public static void gotoNewFriend(Activity activity) {
-        startActivity(activity, NewFriendsMsgActivity.class);
-    }
-
-    public static void gotoChat(Activity activity, String username) {
-        startActivity(activity,new Intent(activity, ChatActivity.class)
-                .putExtra("userId", username));
-    }
-
-    public static void gotoGroups(Activity activity) {
-        startActivity(activity, GroupsActivity.class);
     }
 }
