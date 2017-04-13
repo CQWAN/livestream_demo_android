@@ -4,8 +4,8 @@ import android.content.Context;
 
 import cn.ucai.live.utils.PreferenceManager;
 
-public class LiveModel {
 
+public class LiveModel {
     protected Context context = null;
 
     public LiveModel(Context ctx){
@@ -24,4 +24,5 @@ public class LiveModel {
     public String getCurrentUsernName(){
         return PreferenceManager.getInstance().getCurrentUsername();
     }
+
 }

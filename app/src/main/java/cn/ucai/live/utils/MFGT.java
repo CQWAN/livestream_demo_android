@@ -3,7 +3,6 @@ package cn.ucai.live.utils;
 import android.app.Activity;
 import android.content.Intent;
 
-import cn.ucai.live.I;
 import cn.ucai.live.R;
 import cn.ucai.live.ui.activity.LoginActivity;
 
@@ -32,9 +31,8 @@ public class MFGT {
         activity.overridePendingTransition(R.anim.push_right_in,R.anim.push_right_out);
     }
 
-    public static void gotoLogin(Activity activity,String userName) {
+    public static void gotoLogin(Activity activity) {
         startActivity(activity, new Intent(activity,LoginActivity.class)
-                .putExtra(I.User.USER_NAME,userName)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

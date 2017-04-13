@@ -295,10 +295,10 @@ public class LiveAnchorActivity extends LiveBaseActivity {
 
     UStreamStateListener mStreamStateListener = new UStreamStateListener() {
         //stream state
-        @Override public void onStateChanged(UStreamStateListener.State state, Object o) {
+        @Override public void onStateChanged(State state, Object o) {
         }
 
-        @Override public void onStreamError(UStreamStateListener.Error error, Object extra) {
+        @Override public void onStreamError(Error error, Object extra) {
             switch (error) {
                 case IOERROR:
                     if (isStarted && cameraView.isPreviewed()) {

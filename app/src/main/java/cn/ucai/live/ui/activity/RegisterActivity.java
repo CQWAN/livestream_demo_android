@@ -24,6 +24,7 @@ import cn.ucai.live.utils.CommonUtils;
 import cn.ucai.live.utils.L;
 import cn.ucai.live.utils.MD5;
 import cn.ucai.live.utils.MFGT;
+import cn.ucai.live.utils.PreferenceManager;
 import cn.ucai.live.utils.Result;
 import cn.ucai.live.utils.ResultUtils;
 
@@ -111,8 +112,10 @@ public class RegisterActivity extends BaseActivity {
                         public void run() {
                             pd.dismiss();
                             showToast("注册成功");
-
-                            MFGT.gotoLogin(RegisterActivity.this,username);
+                            PreferenceManager.getInstance().setCurrentUserName(username);
+//                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+//                            finish();
+                            MFGT.gotoLogin(RegisterActivity.this);
                         }
                     });
                 } catch (final HyphenateException e) {

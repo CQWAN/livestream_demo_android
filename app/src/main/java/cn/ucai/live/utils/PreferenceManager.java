@@ -25,6 +25,8 @@ public class PreferenceManager {
 	private static SharedPreferences mSharedPreferences;
 	private static PreferenceManager mPreferencemManager;
 	private static SharedPreferences.Editor editor;
+
+
 	private static String SHARED_KEY_CURRENTUSER_USERNAME = "SHARED_KEY_CURRENTUSER_USERNAME";
 	private static String SHARED_KEY_CURRENTUSER_NICK = "SHARED_KEY_CURRENTUSER_NICK";
 	private static String SHARED_KEY_CURRENTUSER_AVATAR = "SHARED_KEY_CURRENTUSER_AVATAR";
@@ -44,6 +46,7 @@ public class PreferenceManager {
 
 	/**
 	 * get instance of PreferenceManager
+	 *
 	 * @param
 	 * @return
 	 */
@@ -54,9 +57,6 @@ public class PreferenceManager {
 
 		return mPreferencemManager;
 	}
-
-
-
 
 	public void setCurrentUserNick(String nick) {
 		editor.putString(SHARED_KEY_CURRENTUSER_NICK, nick);
@@ -85,9 +85,12 @@ public class PreferenceManager {
 		return mSharedPreferences.getString(SHARED_KEY_CURRENTUSER_USERNAME, null);
 	}
 
+
 	public void removeCurrentUserInfo() {
 		editor.remove(SHARED_KEY_CURRENTUSER_NICK);
 		editor.remove(SHARED_KEY_CURRENTUSER_AVATAR);
 		editor.apply();
 	}
+
+
 }
