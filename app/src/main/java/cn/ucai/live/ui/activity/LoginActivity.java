@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -102,39 +103,39 @@ public class LoginActivity extends BaseActivity {
    * errors are presented and no actual login attempt is made.
    */
   private void attemptLogin() {
-    // Reset errors.
-//    mEmailView.setError(null);
-//    mPasswordView.setError(null);
+//     Reset errors.
+    mEmailView.setError(null);
+    mPasswordView.setError(null);
 
-    // Store values at the time of the login attempt.
-//    Editable email = mEmailView.getText();
-//    Editable password = mPasswordView.getText();
+//     Store values at the time of the login attempt.
+    Editable email = mEmailView.getText();
+    Editable password = mPasswordView.getText();
 
-//    boolean cancel = false;
-//    View focusView = null;
+    boolean cancel = false;
+    View focusView = null;
 
-    // Check for a valid password, if the user entered one.
-//    if (TextUtils.isEmpty(password)) {
-//      mPasswordView.setError(getString(R.string.error_invalid_password));
-//      focusView = mPasswordView;
-//      cancel = true;
-//    }
+//     Check for a valid password, if the user entered one.
+    if (TextUtils.isEmpty(password)) {
+      mPasswordView.setError(getString(R.string.error_invalid_password));
+      focusView = mPasswordView;
+      cancel = true;
+    }
 
-    // Check for a valid email address.
-//    if (TextUtils.isEmpty(email)) {
-//      mEmailView.setError(getString(R.string.error_invalid_email));
-//      focusView = mEmailView;
-//      cancel = true;
-//    }
-//
-//    if (cancel) {
-      // There was an error; don't attempt login and focus the first
-      // form field with an error.
-//      focusView.requestFocus();
-//    } else {
-      // Show a progress spinner, and kick off a background task to
-      // perform the user login attempt.
-//      showProgress(true);
+//     Check for a valid email address.
+    if (TextUtils.isEmpty(email)) {
+      mEmailView.setError(getString(R.string.error_invalid_email));
+      focusView = mEmailView;
+      cancel = true;
+    }
+
+    if (cancel) {
+//       There was an error; don't attempt login and focus the first
+//       form field with an error.
+      focusView.requestFocus();
+    } else {
+//       Show a progress spinner, and kick off a background task to
+//       perform the user login attempt.
+      showProgress(true);
       EMClient.getInstance().login(/*email.toString()*/username, password.toString(), new EMCallBack() {
         @Override public void onSuccess() {
           PreferenceManager.getInstance().setCurrentUserName(username); // 将用户名保存到首选项中
@@ -158,7 +159,7 @@ public class LoginActivity extends BaseActivity {
       });
 
     }
-//  }
+  }
   public boolean checkInput() {
     username = mEmailView.getText().toString().trim();
     password = mPasswordView.getText().toString().trim();
@@ -248,6 +249,5 @@ public class LoginActivity extends BaseActivity {
       mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
   }
-
 }
 
