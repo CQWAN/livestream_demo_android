@@ -111,7 +111,8 @@ public class RegisterActivity extends BaseActivity {
                         public void run() {
                             pd.dismiss();
                             showToast("注册成功");
-                            MFGT.gotoLogin(RegisterActivity.this);
+
+                            MFGT.gotoLogin(RegisterActivity.this,username);
                         }
                     });
                 } catch (final HyphenateException e) {
