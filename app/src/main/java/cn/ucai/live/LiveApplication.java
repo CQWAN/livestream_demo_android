@@ -10,6 +10,7 @@ import com.hyphenate.easeui.controller.EaseUI;
 import com.ucloud.ulive.UStreamingContext;
 
 import cn.ucai.live.ui.activity.MainActivity;
+import cn.ucai.live.utils.PreferenceManager;
 
 /**
  * Created by wei on 2016/5/27.
@@ -43,6 +44,7 @@ public class LiveApplication extends Application{
     //options.setImPort(6717);
 
     EaseUI.getInstance().init(this, null);
+    PreferenceManager.init(LiveApplication.this);
     EMClient.getInstance().setDebugMode(true);
 
     EMClient.getInstance().addConnectionListener(new EMConnectionListener() {
