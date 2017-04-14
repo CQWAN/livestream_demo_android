@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -194,7 +195,12 @@ public class AssociateLiveRoomActivity extends BaseActivity {
                     throw exception;
                 }
 
-                LiveRoom room =  ApiManager.get().createLiveRoom(name, desc, coverUrl, selectedLiveId);
+                LiveRoom room = null;
+                try {
+                    room = ApiManager.get().createLiveRoom(name, desc, coverUrl, selectedLiveId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 //现在服务器没有更新封面，手动调用更新
                 try {
                     ApiManager.get().updateLiveRoomCover(selectedLiveId, coverUrl);

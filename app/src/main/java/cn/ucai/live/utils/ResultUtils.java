@@ -79,6 +79,21 @@ public class ResultUtils {
         return  null;
     }
 
+    public static String getEMResultFromJson(String body) {
+        try {
+            JSONObject jsonObject = new JSONObject(body);
+            if(!jsonObject.isNull("data")) {
+                JSONObject data = jsonObject.getJSONObject("data");
+                if (!data.isNull("id")) {
+                    return data.getString("id");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
 //    public static <T> Result getPageResultFromJson(String jsonStr,Class<T> clazz){
 //        Result result = new Result();
 //        try {

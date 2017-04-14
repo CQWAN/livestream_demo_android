@@ -11,24 +11,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import cn.ucai.live.data.restapi.ApiManager;
-
-import cn.ucai.live.R;
-import cn.ucai.live.ThreadPoolManager;
-import cn.ucai.live.data.model.LiveRoom;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.cloud.EMCloudOperationCallback;
 import com.hyphenate.cloud.HttpFileManager;
 import com.hyphenate.exceptions.HyphenateException;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.ucai.live.R;
+import cn.ucai.live.ThreadPoolManager;
+import cn.ucai.live.data.model.LiveRoom;
+import cn.ucai.live.data.restapi.ApiManager;
 
 public class CreateLiveRoomActivity extends BaseActivity {
 
@@ -117,7 +120,12 @@ public class CreateLiveRoomActivity extends BaseActivity {
                 if(exception != null){
                     throw exception;
                 }
-                return ApiManager.get().createLiveRoom(name, desc, coverUrl);
+                try {
+                    return ApiManager.get().createLiveRoom(name, desc, coverUrl);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
 
             @Override public void onSuccess(LiveRoom liveRoom) {

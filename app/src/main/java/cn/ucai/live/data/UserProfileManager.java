@@ -150,28 +150,44 @@ public class UserProfileManager {
 				}
 			}
 		};
-		/*userModel.loadUserInfo(appContext, EMClient.getInstance().getCurrentUser(),
-				new OnCompleteListener<String>() {
-					@Override
-					public void onSuccess(String s) {
-						if (s!=null){
-							Result result = ResultUtils.getResultFromJson(s, User.class);
-							if (result!=null && result.isRetMsg()){
-								User user = (User) result.getRetData();
-								if (user!=null){
-									updateCurrentAppUserInfo(user);
-								}
-							}
-						}
-					}
 
-					@Override
-					public void onError(String error) {
-
-					}
-				});*/
+//		userModel.loadUserInfo(appContext, EMClient.getInstance().getCurrentUser(),
+//				new OnCompleteListener<String>() {
+//					@Override
+//					public void onSuccess(String s) {
+//						if (s!=null){
+//							Result result = ResultUtils.getResultFromJson(s, User.class);
+//							if (result!=null && result.isRetMsg()){
+//								User user = (User) result.getRetData();
+//								if (user!=null){
+//									updateCurrentAppUserInfo(user);
+//								}
+//							}
+//						}
+//					}
+//
+//					@Override
+//					public void onError(String error) {
+//
+//					}
+//				});
 	}
-
+//	public void createLiveRoom(final String description) {
+//		new Thread() {
+//			@Override
+//			public void run() {
+//				LiveRoom liveRoom = null;
+//				try {
+//					liveRoom = ApiManager.get().createLiveRoom(EMClient.getInstance().getCurrentUser(), description);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				if (liveRoom != null) {
+//					Log.i("main", "创建聊天室成功!");
+//				}
+//			}
+//		};
+//	}
 
 	private void setCurrentAppUserNick(String nickname){
 		getCurrentAppUserInfo().setMUserNick(nickname);
@@ -197,4 +213,5 @@ public class UserProfileManager {
 		setCurrentAppUserNick(u.getMUserNick());
 		setCurrentAppUserAvatar(u.getAvatar());
 	}
+
 }
