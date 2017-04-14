@@ -7,11 +7,13 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.User;
 
 import java.io.File;
+import java.io.IOException;
 
 import cn.ucai.live.I;
 import cn.ucai.live.data.model.IUserModel;
 import cn.ucai.live.data.model.OnCompleteListener;
 import cn.ucai.live.data.model.UserModel;
+import cn.ucai.live.data.restapi.ApiManager;
 import cn.ucai.live.utils.L;
 import cn.ucai.live.utils.PreferenceManager;
 import cn.ucai.live.utils.Result;
@@ -133,8 +135,22 @@ public class UserProfileManager {
 //		}
 //		return avatarUrl;
 	}
-	public void asyncGetCurrentAppUserInfo() {
-		userModel.loadUserInfo(appContext, EMClient.getInstance().getCurrentUser(),
+	public void asyncGetCurrentAppUserInfo()  {
+		new Thread(){
+			@Override
+			public void run() {
+				User user = null;
+				try {
+					user = ApiManager.get().loadUserInfo(EMClient.getInstance().getCurrentUser());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if (user != null) {
+					updateCurrentAppUserInfo(user);
+				}
+			}
+		};
+		/*userModel.loadUserInfo(appContext, EMClient.getInstance().getCurrentUser(),
 				new OnCompleteListener<String>() {
 					@Override
 					public void onSuccess(String s) {
@@ -153,7 +169,7 @@ public class UserProfileManager {
 					public void onError(String error) {
 
 					}
-				});
+				});*/
 	}
 
 
