@@ -1,13 +1,13 @@
 package cn.ucai.live;
 
-import com.ucloud.ulive.UStreamingContext;
+import android.app.Application;
 
-import org.litepal.LitePalApplication;
+import com.ucloud.ulive.UStreamingContext;
 
 /**
  * Created by wei on 2016/5/27.
  */
-public class LiveApplication extends LitePalApplication {
+public class LiveApplication extends Application {
 
     private static LiveApplication instance;
 

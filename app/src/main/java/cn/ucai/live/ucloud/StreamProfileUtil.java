@@ -60,7 +60,7 @@ public class StreamProfileUtil {
                 profile.videoFilterMode,
                 profile.cameraIndex,
                 profile.streamUrl
-        );
+                );
     }
 
     public static UStreamingProfile build(int fps,

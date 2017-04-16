@@ -19,6 +19,7 @@ import cn.ucai.live.data.model.LiveRoom;
 import cn.ucai.live.data.restapi.model.LiveStatusModule;
 import cn.ucai.live.data.restapi.model.ResponseModule;
 import cn.ucai.live.data.restapi.model.StatisticsType;
+import cn.ucai.live.utils.L;
 import cn.ucai.live.utils.Result;
 import cn.ucai.live.utils.ResultUtils;
 import okhttp3.Interceptor;
@@ -37,6 +38,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 
 public class ApiManager {
+    private static final String TAG = "ApiManager";
     private String appkey;
     private ApiService apiService;
     private LiveService liveService;
@@ -67,29 +69,16 @@ public class ApiManager {
                 .build();
 
         apiService = retrofit.create(ApiService.class);
+
         Retrofit liveRetrofit = new Retrofit.Builder()
                 .baseUrl(I.SERVER_ROOT)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .client(httpClient)
                 .build();
-
         liveService = liveRetrofit.create(LiveService.class);
+
     }
-    public List<Gift> getAllGifts() throws IOException {
-        Call<String> allGifts = liveService.getAllGifts();
-        Response<String> response = allGifts.execute();
-        String body = response.body();
-        if (body != null) {
-            Result result = ResultUtils.getListResultFromJson(body, Gift.class);
-            if (result != null && result.isRetMsg()) {
-                List<Gift> gifts = (List<Gift>) result.getRetData();
-                if (gifts != null) {
-                    return gifts;
-                }
-            }
-        }
-        return null;
-    }
+
 
     static class RequestInterceptor implements Interceptor {
 
@@ -113,38 +102,83 @@ public class ApiManager {
         return instance;
     }
 
-    public User loadUserInfo(String username) throws IOException {
-        User user = null;
-        Call<String> call = liveService.loadUserInfo(username);
-        Response<String> response = call.execute();
-        String body = response.body();
-        Result result = ResultUtils.getResultFromJson(body, User.class);
-        if (result != null && result.isRetMsg()) {
-            user = (User) result.getRetData();
+    public List<Gift> getAllGifts() throws LiveException {
+        Call<String> call = liveService.getAllGifts();
+        Result<List<Gift>> result = handleResponseCallToResultList(call, Gift.class);
+        if (result!=null && result.isRetMsg()){
+            return result.getRetData();
         }
-        return user;
+        return null;
+
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                L.e(TAG,"response="+response);
+//                String s = response.body();
+//                Result result = ResultUtils.getListResultFromJson(s, Gift.class);
+//                if (result!=null && result.isRetMsg()){
+//                    List<Gift> list = (List<Gift>) result.getRetData();
+//                    for (Gift gift : list) {
+//                        L.e(TAG,"gift="+gift);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                L.e(TAG,"onFailure="+t.toString());
+//            }
+//        });
     }
 
-    // http://101.251.196.90:8080/SuperWeChatServerV2.0/live/createChatRoom?auth=1IFgE&name=LPP&description=LPPZB&owner=LPP&maxusers=300&members=LPP
-    public String createLiveRoom(String auth, String name, String description, String owner, int maxusers,
-                                   String members) throws IOException {
-        Call<String> call = liveService.createLiveRoom(auth, name, description, owner, maxusers, members);
-        Response<String> response = call.execute();
-        String body = response.body();
-        if (body != null) {
-            String id = ResultUtils.getEMResultFromJson(body);
-            if (id != null) {
-                return id;
-            }
+    public User loadUserInfo(String username) throws IOException, LiveException {
+        Call<String> call = liveService.loadUserInfo(username);
+        Result<User> result = handleResponseCallToResult(call, User.class);
+        if (result!=null && result.isRetMsg()){
+            return result.getRetData();
         }
         return null;
     }
 
-    public String createLiveRoom(String name,String description) throws IOException {
-        String id = createLiveRoom("1IFgE", name, description, EMClient.getInstance().getCurrentUser(), 300,
-                EMClient.getInstance().getCurrentUser());
-        return id;
+    public String createLiveRoom(String auth,String name,String description,String owner,int maxusers,
+            String members) throws IOException {
+        Call<String> call = liveService.createLiveRoom(auth, name, description, owner, maxusers, members);
+        Response<String> response = call.execute();
+        return ResultUtils.getEMResultFromJson(response.body());
     }
+
+    public String createLiveRoom(String name,String description) throws IOException {
+        return createLiveRoom("1IFgE",name,description,EMClient.getInstance().getCurrentUser(),300,
+                EMClient.getInstance().getCurrentUser());
+    }
+
+
+    private <T> Result<T>handleResponseCallToResult(Call<String> call,Class<T> clazz) throws LiveException{
+        try {
+            Response<String> response = call.execute();
+            if(!response.isSuccessful()){
+                throw new LiveException(response.code(), response.errorBody().string());
+            }
+            String body = response.body();
+            return ResultUtils.getResultFromJson(body, clazz);
+        } catch (IOException e) {
+            throw new LiveException(e.getMessage());
+        }
+    }
+
+    private <T> Result<List<T>>handleResponseCallToResultList(Call<String> call,Class<T> clazz) throws LiveException{
+        try {
+            Response<String> response = call.execute();
+            if(!response.isSuccessful()){
+                throw new LiveException(response.code(), response.errorBody().string());
+            }
+            String body = response.body();
+            return ResultUtils.getListResultFromJson(body, clazz);
+        } catch (IOException e) {
+            throw new LiveException(e.getMessage());
+        }
+    }
+
 
     public LiveRoom createLiveRoom(String name, String description, String coverUrl) throws LiveException, IOException {
         return createLiveRoomWithRequest(name, description, coverUrl, null);
@@ -154,19 +188,23 @@ public class ApiManager {
         return createLiveRoomWithRequest(name, description, coverUrl, liveRoomId);
     }
 
-    private LiveRoom createLiveRoomWithRequest(String name, String description, String coverUrl, String liveRoomId) throws LiveException, IOException {
+    private LiveRoom createLiveRoomWithRequest(String name, String description, String coverUrl,
+                                               String liveRoomId) throws LiveException, IOException {
         LiveRoom liveRoom = new LiveRoom();
         liveRoom.setName(name);
         liveRoom.setDescription(description);
         liveRoom.setAnchorId(EMClient.getInstance().getCurrentUser());
         liveRoom.setCover(coverUrl);
+
         String id = createLiveRoom(name, description);
-        if(id != null) {
+        L.e(TAG,"id="+id);
+        if (id!=null){
             liveRoom.setId(id);
             liveRoom.setChatroomId(id);
-        }else {
+        }else{
             liveRoom.setId(liveRoomId);
         }
+
 //        Call<ResponseModule<LiveRoom>> responseCall;
 //        if(liveRoomId != null){
 //            responseCall = apiService.createLiveShow(liveRoomId, liveRoom);
@@ -308,7 +346,9 @@ public class ApiManager {
 
     private <T> Response<T>handleResponseCall(Call<T> responseCall) throws LiveException{
         try {
+            L.e(TAG,"handleResponseCall,responseCall="+responseCall.toString());
             Response<T> response = responseCall.execute();
+            L.e(TAG,"handleResponseCall,response="+response.toString());
             if(!response.isSuccessful()){
                 throw new LiveException(response.code(), response.errorBody().string());
             }

@@ -16,17 +16,17 @@ import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.ucai.live.data.DBManager;
 import cn.ucai.live.data.UserProfileManager;
-import cn.ucai.live.data.dao.GiftDao;
 import cn.ucai.live.data.model.Gift;
 import cn.ucai.live.data.model.IUserModel;
 import cn.ucai.live.data.model.UserModel;
 import cn.ucai.live.data.restapi.ApiManager;
+import cn.ucai.live.data.restapi.LiveException;
 import cn.ucai.live.ui.activity.MainActivity;
 import cn.ucai.live.utils.PreferenceManager;
 
@@ -45,13 +45,13 @@ public class LiveHelper {
     private LiveModel demoModel = null;
 
     private String username;
+    private Map<Integer, Gift> giftList;
 
     private Context appContext;
 
     private IUserModel userModel;
 
     private LocalBroadcastManager broadcastManager;
-    private GiftDao giftDao;
 
     private LiveHelper() {
     }
@@ -71,7 +71,6 @@ public class LiveHelper {
     public void init(Context context) {
         demoModel = new LiveModel(context);
         userModel = new UserModel();
-        giftDao = new GiftDao();
         //use default options if options is null
         if (EaseUI.getInstance().init(context, null)) {
             appContext = context;
@@ -114,6 +113,7 @@ public class LiveHelper {
      * set global listener
      */
     protected void setGlobalListeners() {
+
         // create the global connection listener
         connectionListener = new EMConnectionListener() {
             @Override
@@ -261,33 +261,39 @@ public class LiveHelper {
 
     synchronized void reset() {
         getUserProfileManager().reset();
+        DBManager.getInstance().closeDB();
     }
 
-    public void saveGifts(List<Gift> giftList) {
-        giftDao.saveGifts(giftList);
-    }
-    public Map<Integer, Gift> getGifts() {
-        List<Gift> gifts = giftDao.getGifts();
-        Map<Integer, Gift> map = new HashMap<>();
-        for (Gift gift : gifts) {
-            map.put(gift.getId(), gift);
+    public Map<Integer, Gift> getGiftList(){
+        if (giftList == null){
+            giftList = demoModel.getGiftList();
         }
-        return map;
+        if (giftList == null){
+            giftList = new HashMap<Integer, Gift>();
+        }
+        return giftList;
     }
 
-    Map<Integer, Gift> map = null;
-    public void syncGetGiftInfo() throws IOException {
-        List<Gift> allGifts = ApiManager.get().getAllGifts();
-        saveGiftsInfoToCache();
+    public void syncLoadGiftList(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<Gift> list = ApiManager.get().getAllGifts();
+                    if (list!=null && list.size()>0){
+                        //save list to databases
+                        demoModel.setGiftList(list);
+                        //save list to cache
+                        for (Gift gift : list) {
+                            getGiftList().put(gift.getId(),gift);
+                        }
+                    }
+                } catch (LiveException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
     }
 
-    private Map<Integer,Gift> saveGiftsInfoToCache() {
-        if (map == null) {
-            map = getGifts();
-        }
-        if (map == null) {
-            map = new HashMap<>();
-        }
-        return map;
-    }
 }
