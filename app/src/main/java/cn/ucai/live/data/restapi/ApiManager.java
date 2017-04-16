@@ -27,7 +27,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -76,19 +75,20 @@ public class ApiManager {
 
         liveService = liveRetrofit.create(LiveService.class);
     }
-    private void getAllGifts(){
-        Call<List<Gift>> allGifts = liveService.getAllGifts();
-        allGifts.enqueue(new Callback<List<Gift>>() {
-            @Override
-            public void onResponse(Call<List<Gift>> call, Response<List<Gift>> response) {
-                
+    public List<Gift> getAllGifts() throws IOException {
+        Call<String> allGifts = liveService.getAllGifts();
+        Response<String> response = allGifts.execute();
+        String body = response.body();
+        if (body != null) {
+            Result result = ResultUtils.getListResultFromJson(body, Gift.class);
+            if (result != null && result.isRetMsg()) {
+                List<Gift> gifts = (List<Gift>) result.getRetData();
+                if (gifts != null) {
+                    return gifts;
+                }
             }
-
-            @Override
-            public void onFailure(Call<List<Gift>> call, Throwable t) {
-
-            }
-        });
+        }
+        return null;
     }
 
     static class RequestInterceptor implements Interceptor {

@@ -1,9 +1,6 @@
 package cn.ucai.live.data.restapi;
 
-import java.util.List;
-
 import cn.ucai.live.I;
-import cn.ucai.live.data.model.Gift;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface LiveService {
     @GET("live/getAllGifts")
-    Call<List<Gift>> getAllGifts();
+    Call<String> getAllGifts();
     @GET("findUserByUserName")
     Call<String> loadUserInfo(@Query(I.User.USER_NAME)String username);
     // http://101.251.196.90:8080/SuperWeChatServerV2.0/live/createChatRoom?auth=1IFgE&name=LPP&description=LPPZB&owner=LPP&maxusers=300&members=LPP
