@@ -40,6 +40,7 @@
       android:layout_below="@id/toolbar_actionbar"
       >
   </FrameLayout>
+
   <android.support.design.widget.FloatingActionButton
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -48,10 +49,12 @@
       app:backgroundTint="#19A3FF"
       android:id="@+id/floatingActionButton"
       android:src="@drawable/live_start_img"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginBottom="18dp"
       android:layout_alignParentBottom="true"
-      android:layout_alignParentRight="true"
-      android:layout_margin="20dp"
-      />
+      android:layout_alignParentEnd="true"
+      android:layout_marginEnd="16dp" />
   <!--app:srcCompat="@color/holo_blue_bright"-->
 
 </RelativeLayout>

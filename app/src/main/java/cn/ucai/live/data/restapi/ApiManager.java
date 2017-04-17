@@ -2,6 +2,7 @@ package cn.ucai.live.data.restapi;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.User;
@@ -28,6 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -130,7 +132,21 @@ public class ApiManager {
 //            }
 //        });
     }
+    public void deleteChatoom(String chatRoomId) {
+        Call<String> call = liveService.deleteChatoom("1IFgE", chatRoomId);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                boolean deleteSuccess = ResultUtils.getEMResultWithSuccessFromJson(response.body());
+                Log.i(TAG, "deleteChatoom,deleteSuccess="+deleteSuccess);
+            }
 
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
     public User loadUserInfo(String username) throws IOException, LiveException {
         Call<String> call = liveService.loadUserInfo(username);
         Result<User> result = handleResponseCallToResult(call, User.class);
