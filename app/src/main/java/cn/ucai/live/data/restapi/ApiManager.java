@@ -149,7 +149,7 @@ public class ApiManager {
 
     public String createLiveRoom(String name,String description) throws IOException {
         return createLiveRoom("1IFgE",name,description,EMClient.getInstance().getCurrentUser(),300,
-                EMClient.getInstance().getCurrentUser());
+                EMClient.getInstance().getCurrentUser()+",gsd123,hhhhh,seven009,chendida,qwer000");
     }
 
 

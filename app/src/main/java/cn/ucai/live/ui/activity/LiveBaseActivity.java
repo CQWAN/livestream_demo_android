@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMChatRoomChangeListener;
 import com.hyphenate.EMMessageListener;
@@ -402,10 +401,12 @@ public abstract class LiveBaseActivity extends BaseActivity {
                     if (tempList.contains(chatroom.getOwner())) {
                         tempList.remove(chatroom.getOwner());
                     }
-                    if(tempList.size() > MAX_SIZE) {
-                        for (int i = 0; i < MAX_SIZE; i++){
+                    if (tempList.size() > MAX_SIZE) {
+                        for (int i = 0; i < MAX_SIZE; i++) {
                             memberList.add(i, tempList.get(i));
                         }
+                    } else {
+                        memberList.addAll(tempList);
                     }
                 } catch (HyphenateException e) {
                     e.printStackTrace();
@@ -542,10 +543,11 @@ public abstract class LiveBaseActivity extends BaseActivity {
                 }
             });
             //暂时使用测试数据
-            Glide.with(context)
-                    .load(avatarRepository.getAvatar())
-                    .placeholder(R.drawable.ease_default_avatar)
-                    .into(holder.Avatar);
+//            Glide.with(context)
+//                    .load(avatarRepository.getAvatar())
+//                    .placeholder(R.drawable.ease_default_avatar)
+//                    .into(holder.Avatar);
+            EaseUserUtils.setAppUserAvatar(context,namelist.get(position),holder.Avatar);
         }
 
         @Override public int getItemCount() {
