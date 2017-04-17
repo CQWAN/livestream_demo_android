@@ -52,7 +52,7 @@ public class LiveHelper {
     private IUserModel userModel;
 
     private LocalBroadcastManager broadcastManager;
-
+    private DBManager dbManager;
     private LiveHelper() {
     }
 
@@ -71,6 +71,7 @@ public class LiveHelper {
     public void init(Context context) {
         demoModel = new LiveModel(context);
         userModel = new UserModel();
+        dbManager = new DBManager();
         //use default options if options is null
         if (EaseUI.getInstance().init(context, null)) {
             appContext = context;
@@ -261,7 +262,7 @@ public class LiveHelper {
 
     synchronized void reset() {
         getUserProfileManager().reset();
-        DBManager.getInstance().closeDB();
+        dbManager.closeDB();
     }
 
     public Map<Integer, Gift> getGiftList(){
