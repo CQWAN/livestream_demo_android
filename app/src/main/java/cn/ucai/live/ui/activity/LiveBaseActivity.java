@@ -11,10 +11,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMChatRoomChangeListener;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMChatRoom;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.widget.EaseImageView;
+import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.live.LiveConstants;
+import cn.ucai.live.R;
 import cn.ucai.live.ThreadPoolManager;
 import cn.ucai.live.data.TestAvatarRepository;
 import cn.ucai.live.data.model.LiveRoom;
@@ -24,22 +44,6 @@ import cn.ucai.live.data.restapi.model.StatisticsType;
 import cn.ucai.live.ui.widget.PeriscopeLayout;
 import cn.ucai.live.ui.widget.RoomMessagesView;
 import cn.ucai.live.utils.Utils;
-
-import com.bumptech.glide.Glide;
-import cn.ucai.live.R;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.EMChatRoomChangeListener;
-import com.hyphenate.EMMessageListener;
-import com.hyphenate.chat.EMChatRoom;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCmdMessageBody;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.EMLog;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by wei on 2016/6/12.
@@ -64,7 +68,10 @@ public abstract class LiveBaseActivity extends BaseActivity {
     @BindView(R.id.switch_camera_image) ImageView switchCameraView;
     @BindView(R.id.like_image) ImageView likeImageView;
     @BindView(R.id.txt_live_id) TextView liveIdView;
-    @BindView(R.id.tv_username) TextView usernameView;
+    @BindView(R.id.tv_username)
+    TextView tvUsername;
+    @BindView(R.id.iv_avatar)
+    EaseImageView ivAvatar;
 
     protected String anchorId;
 
@@ -100,10 +107,14 @@ public abstract class LiveBaseActivity extends BaseActivity {
         chatroomId = liveRoom.getChatroomId();
         anchorId = liveRoom.getAnchorId();
         onActivityCreate(savedInstanceState);
-        usernameView.setText(anchorId);
+        initAnchorData();
         liveIdView.setText(liveId);
         audienceNumView.setText(String.valueOf(liveRoom.getAudienceNum()));
         watchedCount = liveRoom.getAudienceNum();
+    }
+    private void initAnchorData() {
+        EaseUserUtils.setCurrentAvatar(LiveBaseActivity.this,ivAvatar);
+        EaseUserUtils.setCurrentNick(tvUsername);
     }
 
     protected Handler handler = new Handler();
