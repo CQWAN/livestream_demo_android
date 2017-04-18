@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.ArrayList;
@@ -64,68 +65,85 @@ public class LiveListFragment extends Fragment {
         swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
         showLiveList(false);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override public void onRefresh() {
+            @Override
+            public void onRefresh() {
                 showLiveList(false);
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && hasMoreData
                         && !isLoading
-                        && glm.findLastVisibleItemPosition() == glm.getItemCount() -1){
+                        && glm.findLastVisibleItemPosition() == glm.getItemCount() - 1) {
                     showLiveList(true);
                 }
             }
         });
-
     }
 
-    private void showLiveList(final boolean isLoadMore){
-        if(!isLoadMore)
+    private void showLiveList(final boolean isLoadMore) {
+        if (!isLoadMore)
             swipeRefreshLayout.setRefreshing(true);
         else
             loadmorePB.setVisibility(View.VISIBLE);
         isLoading = true;
         ThreadPoolManager.getInstance().executeTask(new ThreadPoolManager.Task<ResponseModule<List<LiveRoom>>>() {
-            @Override public ResponseModule<List<LiveRoom>> onRequest() throws HyphenateException {
-                if(!isLoadMore){
+            @Override
+            public ResponseModule<List<LiveRoom>> onRequest() throws HyphenateException {
+                if (!isLoadMore) {
                     cursor = null;
                 }
                 return ApiManager.get().getLivingRoomList(pageSize, cursor);
             }
 
-            @Override public void onSuccess(ResponseModule<List<LiveRoom>> listResponseModule) {
+            @Override
+            public void onSuccess(ResponseModule<List<LiveRoom>> listResponseModule) {
                 hideLoadingView(isLoadMore);
                 List<LiveRoom> returnList = listResponseModule.data;
-                if(returnList.size() < pageSize){
+                if (returnList.size() < pageSize) {
                     hasMoreData = false;
                     cursor = null;
-                }else{
+                } else {
                     hasMoreData = true;
                     cursor = listResponseModule.cursor;
                 }
 
-                if(!isLoadMore) {
+                if (!isLoadMore) {
                     liveRoomList.clear();
                 }
                 liveRoomList.addAll(returnList);
-                if(adapter == null){
+                if (adapter == null) {
                     adapter = new PhotoAdapter(getActivity(), liveRoomList);
                     recyclerView.setAdapter(adapter);
-                }else{
+                } else {
                     adapter.notifyDataSetChanged();
                 }
 
             }
 
-            @Override public void onError(HyphenateException exception) {
+            @Override
+            public void onError(HyphenateException exception) {
                 hideLoadingView(isLoadMore);
             }
         });
     }
 
+    private LiveRoom ChatRoom2LiveRoom(EMChatRoom room) {
+        LiveRoom liveRoom = null;
+        if (room == null) {
+            liveRoom = new LiveRoom();
+            liveRoom.setId(room.getOwner());
+            liveRoom.setChatroomId(room.getId());
+            liveRoom.setName(room.getName());
+            liveRoom.setDescription(room.getDescription());
+            liveRoom.setAnchorId(room.getOwner());
+            liveRoom.setAudienceNum(room.getMemberCount());
+        }
+        return liveRoom;
+    }
     private void hideLoadingView(boolean isLoadMore){
         isLoading = false;
         if(!isLoadMore)
