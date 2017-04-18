@@ -1,8 +1,6 @@
 package cn.ucai.live.data.model;
 
-import org.litepal.crud.DataSupport;
-
-public class Gift extends DataSupport{
+public class Gift {
     private Integer id;
 
     private String gname;

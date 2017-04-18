@@ -2,7 +2,6 @@ package cn.ucai.live.data.restapi;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.User;
@@ -132,21 +131,7 @@ public class ApiManager {
 //            }
 //        });
     }
-    public void deleteChatoom(String chatRoomId) {
-        Call<String> call = liveService.deleteChatoom("1IFgE", chatRoomId);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                boolean deleteSuccess = ResultUtils.getEMResultWithSuccessFromJson(response.body());
-                Log.i(TAG, "deleteChatoom,deleteSuccess="+deleteSuccess);
-            }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
     public User loadUserInfo(String username) throws IOException, LiveException {
         Call<String> call = liveService.loadUserInfo(username);
         Result<User> result = handleResponseCallToResult(call, User.class);
@@ -165,7 +150,23 @@ public class ApiManager {
 
     public String createLiveRoom(String name,String description) throws IOException {
         return createLiveRoom("1IFgE",name,description,EMClient.getInstance().getCurrentUser(),300,
-                EMClient.getInstance().getCurrentUser()+",gsd123,hhhhh,seven009,chendida,qwer000");
+                EMClient.getInstance().getCurrentUser()+",fffire,seven009,zhu123456,cccccg,qwer000,gsd123,xsh123");
+    }
+
+    public void deleteLiveRoom(String chatRoomId){
+        Call<String> call = liveService.deleteLiveRoom("1IFgE", chatRoomId);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                boolean deleteSuccess = ResultUtils.getEMResultWithSuccessFromJson(response.body());
+                L.e(TAG,"deleteLiveRoom,deleteSuccess="+deleteSuccess);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                L.e(TAG,"deleteLiveRoom,onFailure="+t.toString());
+            }
+        });
     }
 
 

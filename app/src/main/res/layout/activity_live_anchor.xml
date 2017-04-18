@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             >
+
         </cn.ucai.live.ucloud.LiveCameraView>
 
         <!-- top layout -->
