@@ -17,6 +17,8 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -266,6 +268,40 @@ public class LiveHelper {
         getUserProfileManager().reset();
         DBManager.getInstance().closeDB();
     }
+
+    public Map<Integer, Gift> getGiftMap(){
+        if (giftMap == null){
+            giftMap = demoModel.getGiftList();
+        }
+        if (giftMap == null){
+            giftMap = new HashMap<Integer, Gift>();
+        }
+        return giftMap;
+    }
+
+    public List<Gift> getGiftList(){
+        if (giftList==null){
+            if (getGiftMap().size()>0){
+                giftList = new ArrayList<>();
+                Iterator<Map.Entry<Integer, Gift>> iterator = giftMap.entrySet().iterator();
+                while (iterator.hasNext()){
+                    giftList.add(iterator.next().getValue());
+                }
+                Collections.sort(giftList, new Comparator<Gift>() {
+                    @Override
+                    public int compare(Gift gift, Gift t1) {
+                        return gift.getGprice().compareTo(t1.getGprice());
+                    }
+                });
+            }
+        }
+        if (giftList==null){
+            giftList = new ArrayList<>();
+        }
+
+        return giftList;
+    }
+
     public void syncLoadGiftList(){
         new Thread(new Runnable() {
             @Override
@@ -288,28 +324,4 @@ public class LiveHelper {
         }).start();
     }
 
-    public Map<Integer, Gift> getGiftMap(){
-        if (giftMap == null){
-            giftMap = demoModel.getGiftList();
-        }
-        if (giftMap == null){
-            giftMap = new HashMap<>();
-        }
-        return giftMap;
-    }
-
-    public List<Gift> getGiftList() {
-        if (giftList == null) {
-            giftList = new ArrayList<>();
-            Map<Integer, Gift> giftMap = getGiftMap();
-            Iterator<Map.Entry<Integer, Gift>> iterator = giftMap.entrySet().iterator();
-            while (iterator.hasNext()) {
-                giftList.add(iterator.next().getValue());
-            }
-        }
-        if (giftList == null) {
-            giftList = new ArrayList<>();
-        }
-        return giftList;
-    }
 }

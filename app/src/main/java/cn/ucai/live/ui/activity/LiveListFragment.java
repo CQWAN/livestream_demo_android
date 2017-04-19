@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.ucai.live.LiveConstants;
 import cn.ucai.live.R;
 import cn.ucai.live.ThreadPoolManager;
 import cn.ucai.live.data.model.LiveRoom;
@@ -125,7 +126,6 @@ public class LiveListFragment extends Fragment {
             }
         });
     }
-
     private void hideLoadingView(boolean isLoadMore){
         isLoading = false;
         if(!isLoadMore)
