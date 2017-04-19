@@ -25,7 +25,7 @@
         />
 
     <RelativeLayout
-        android:id="@+id/iv_camera_like"
+        android:id="@+id/layout_like_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
@@ -46,11 +46,14 @@
             android:visibility="invisible"
             />
     </RelativeLayout>
+
     <ImageView
-        android:id="@+id/iv_gifts"
+        android:id="@+id/gift_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        android:layout_toLeftOf="@id/layout_like_camera"
         android:src="@drawable/live_button_present_selector"
-        android:layout_toLeftOf="@id/iv_camera_like"
-        android:layout_marginRight="12dp"/>
+        />
+
 </RelativeLayout>
