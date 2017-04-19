@@ -16,7 +16,9 @@ import com.hyphenate.easeui.domain.User;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +47,8 @@ public class LiveHelper {
     private LiveModel demoModel = null;
 
     private String username;
-    private Map<Integer, Gift> giftList;
+    private Map<Integer, Gift> giftMap;
+    private List<Gift> giftList;
 
     private Context appContext;
 
@@ -263,17 +266,6 @@ public class LiveHelper {
         getUserProfileManager().reset();
         DBManager.getInstance().closeDB();
     }
-
-    public Map<Integer, Gift> getGiftList(){
-        if (giftList == null){
-            giftList = demoModel.getGiftList();
-        }
-        if (giftList == null){
-            giftList = new HashMap<Integer, Gift>();
-        }
-        return giftList;
-    }
-
     public void syncLoadGiftList(){
         new Thread(new Runnable() {
             @Override
@@ -285,7 +277,7 @@ public class LiveHelper {
                         demoModel.setGiftList(list);
                         //save list to cache
                         for (Gift gift : list) {
-                            getGiftList().put(gift.getId(),gift);
+                            getGiftMap().put(gift.getId(),gift);
                         }
                     }
                 } catch (LiveException e) {
@@ -296,4 +288,28 @@ public class LiveHelper {
         }).start();
     }
 
+    public Map<Integer, Gift> getGiftMap(){
+        if (giftMap == null){
+            giftMap = demoModel.getGiftList();
+        }
+        if (giftMap == null){
+            giftMap = new HashMap<>();
+        }
+        return giftMap;
+    }
+
+    public List<Gift> getGiftList() {
+        if (giftList == null) {
+            giftList = new ArrayList<>();
+            Map<Integer, Gift> giftMap = getGiftMap();
+            Iterator<Map.Entry<Integer, Gift>> iterator = giftMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                giftList.add(iterator.next().getValue());
+            }
+        }
+        if (giftList == null) {
+            giftList = new ArrayList<>();
+        }
+        return giftList;
+    }
 }

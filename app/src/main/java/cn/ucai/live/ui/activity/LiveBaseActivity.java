@@ -65,6 +65,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
     //@BindView(R.id.new_messages_warn) ImageView newMsgNotifyImage;
 
     @BindView(R.id.user_manager_image) ImageView userManagerView;
+    @BindView(R.id.user_manager_image) ImageView giftImageView;
     @BindView(R.id.switch_camera_image) ImageView switchCameraView;
     @BindView(R.id.like_image) ImageView likeImageView;
     @BindView(R.id.txt_live_id) TextView liveIdView;
@@ -489,11 +490,6 @@ public abstract class LiveBaseActivity extends BaseActivity {
         });
     }
 
-
-    //@OnClick(R.id.root_layout) void onRootLayoutClick() {
-    //    periscopeLayout.addHeart();
-    //}
-
     @OnClick(R.id.comment_image) void onCommentImageClick() {
         showInputView();
     }
@@ -501,6 +497,10 @@ public abstract class LiveBaseActivity extends BaseActivity {
     @OnClick(R.id.user_manager_image) void showUserList() {
         RoomUserManagementDialog managementDialog = new RoomUserManagementDialog(chatroomId);
         managementDialog.show(getSupportFragmentManager(), "RoomUserManagementDialog");
+    }
+    @OnClick(R.id.iv_gifts) void showGiftList() {
+        GiftListDialog dialog = GiftListDialog.newInstance();
+        dialog.show(getSupportFragmentManager(), "RoomUserDetailsDialog");
     }
 
     //@OnClick(R.id.present_image) void onPresentImageClick() {
